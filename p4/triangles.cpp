@@ -32,7 +32,19 @@ unsigned long triangle::area() {
 	// TODO: write this function.
 	// Note: why is it okay to return an integer here?  Recall that
 	// all of our triangles have integer sides, and are right triangles...
-	return 0;
+
+	/*if(s1 > s2 && s1 > s3)
+		return (s2*s3)/3;
+	else if(s2 > s1 && s2 > s3)
+		return (s1*s3)/3;
+	else if(s3 > s1 && s3 > s2)
+		return (s1*s2)/3;
+	else 
+		return 0;*/
+
+	unsigned long sides[3] = {s1,s2,s3};
+	sort(sides,sides+3);
+	return (sides[0]*sides[1])/2;
 }
 
 void triangle::print() {
@@ -41,18 +53,45 @@ void triangle::print() {
 
 bool congruent(triangle t1, triangle t2) {
 	// TODO: write this function.
-	return false;
-}
+
+	/*	if(t1.perimeter() != t2.perimeter())
+		return false;
+	else if((t1.s1 == t2.s1 || t1.s1 == t2.s2 || t1.s1 == t2.s1) &&
+			(t1.s2 == t2.s1 || t1.s2 == t2.s2 || t1.s2 == t2.s1) &&
+			(t1.s3 == t2.s3 || t1.s3 == t2.s2 || t1.s3 == t2.s1))
+				return true;
+	else
+		return false;*/
+		unsigned long sides1[3] = {t1.s1,t1.s2,t1.s3}, sides2[3] = {t2.s1,t2.s2,t2.s3};
+		sort(sides1,sides1+3);
+		sort(sides2,sides2+3);
+		if(sides1[0] == sides2[0] && sides1[1] == sides2[1] && sides1[2] == sides2[2])
+			return true;
+		else
+			return false;
+		}
 
 bool similar(triangle t1, triangle t2) {
 	// TODO: write this function.
-	return false;
+	/*if (t1.s1/t2.s1 == t1.s2/t2.s2 && t1.s2/t2.s2 == t1.s3/t2.s3)
+		return true;
+	else
+		return false;*/
+	unsigned long sides1[3] = {t1.s1,t1.s2,t1.s3}, sides2[3] = {t2.s1,t2.s2,t2.s3};
+		sort(sides1,sides1+3);
+		sort(sides2,sides2+3);
+		if(sides1[0]/sides2[0] == sides1[1]/sides2[1] && sides1[0]/sides2[0] == sides1[2]/sides2[2])
+			return true;
+		else
+			return false;
 }
 
 vector<triangle> findRightTriangles(unsigned long l, unsigned long h) {
 	// TODO: find all the right triangles with integer sides,
 	// subject to the perimeter bigger than l and less than h
 	vector<triangle> retval; // storage for return value.
+
 	return retval;
 }
+
 
