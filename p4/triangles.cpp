@@ -65,10 +65,10 @@ bool congruent(triangle t1, triangle t2) {
 		unsigned long sides1[3] = {t1.s1,t1.s2,t1.s3}, sides2[3] = {t2.s1,t2.s2,t2.s3};
 		sort(sides1,sides1+3);
 		sort(sides2,sides2+3);
-		if(sides1[0] == sides2[0] && sides1[1] == sides2[1] && sides1[2] == sides2[2])
-			return true;
-		else
-			return false;
+		return (sides1[0] == sides2[0] && sides1[1] == sides2[1] && sides1[2] == sides2[2]);
+		//	return true;
+		//else
+		//	return false;
 		}
 
 bool similar(triangle t1, triangle t2) {
@@ -80,17 +80,37 @@ bool similar(triangle t1, triangle t2) {
 	unsigned long sides1[3] = {t1.s1,t1.s2,t1.s3}, sides2[3] = {t2.s1,t2.s2,t2.s3};
 		sort(sides1,sides1+3);
 		sort(sides2,sides2+3);
-		if(sides1[0]/sides2[0] == sides1[1]/sides2[1] && sides1[0]/sides2[0] == sides1[2]/sides2[2])
-			return true;
-		else
-			return false;
+		return (sides1[0]/sides2[0] == sides1[1]/sides2[1] && sides1[0]/sides2[0] == sides1[2]/sides2[2]);
+			//return true;
+		//else
+		//	return false;
 }
 
+//NOTE: FIX CODE RIGHT TRIANGLES REPEATS FIX THE VECTOR
 vector<triangle> findRightTriangles(unsigned long l, unsigned long h) {
 	// TODO: find all the right triangles with integer sides,
 	// subject to the perimeter bigger than l and less than h
 	vector<triangle> retval; // storage for return value.
+	triangle temp;
 
+	unsigned int c;
+	
+	 for(unsigned int i = 3; i < h; i++){
+	 	temp.s1 = i;
+
+	 	for(unsigned int i = 4; i < h; i++){
+			temp.s2 = i;
+			c = (temp.s1*temp.s1) + (temp.s2*temp.s2);
+
+			for(unsigned int i = 5; i < h; i++){
+	 			if((double) c/(i*i) == 1){
+					temp.s3 = i;		
+					if(temp.perimeter() <= h && temp.perimeter() >= l)
+						retval.push_back(temp);
+				}	
+			 }
+		}
+	 }	 
 	return retval;
 }
 
