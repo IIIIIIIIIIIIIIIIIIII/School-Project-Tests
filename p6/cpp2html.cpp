@@ -6,11 +6,9 @@
  * and the book, please list everything.  And remember- citing a source does
  * NOT mean it is okay to COPY THAT SOURCE.  What you submit here **MUST BE
  * YOUR OWN WORK**.
- * References:
- *
- *
+ * References: friend Laisa
  * Finally, please indicate approximately how many hours you spent on this:
- * #hours: 
+ * #hours: ~8 hours (O.O)
  */
 
 #include "fsm.h"
@@ -92,23 +90,14 @@ int main() {
 	string s, x,cword;
 	while(getline(cin,s)){
 
-	//	int zstate = start;
-	//for (unsigned long i = 0; i < s.length(); i++) {
-	//	cout << updateState(zstate,s[i]);
-	//}
-	//cout << zstate << endl;
-	//cout << s << endl;
-
         int cstate = start;
-		cout << endl;
         for(unsigned int i = 0; i < s.length();i++){
 			int oldstate = cstate;
 			updateState(cstate,s[i]);
-            cout << cstate << "\t" << s[i]<< endl;
+           // cout << cstate << "\t" << s[i]<< "\t" << cword << endl;    (Tester for which case there is a bug)
             switch(cstate){
             
                 case start:
-				//	cout << cword << endl;
                   if(cword != ""){
 				  	map<string, short>::iterator it;
 				  	it = hlmap.find(cword);
@@ -136,10 +125,12 @@ int main() {
                     break;
 
                 case strlit:
-					if(oldstate == readesc);
-					//x += hlspans[hlescseq] + s[i] + spanend;
+					if(oldstate == readesc){
+						x += hlspans[hlescseq] + cword + s[i] + spanend;
+						cword = "";
+					}
 					else
-                    x += hlspans[hlstrlit] + s[i] + spanend;
+                   		x += hlspans[hlstrlit] + s[i] + spanend;
                     break;
 
                 case readfs:
@@ -147,19 +138,21 @@ int main() {
 					break;
 
                 case readesc:
-                    x += hlspans[hlescseq] + s[i] + spanend;
+                    cword += s[i];
                     break;
 
                 case scannum:
                     x+= hlspans[hlnumeric] + s[i] + spanend;
-                //    cstate = updateState(cstate,s[i]);
                     break;
 
                 case error:
-				
-                    x += hlspans[hlerror] + s[i] + spanend;
-                  //  cstate = updateState(cstate,s[i]);
-                    break;
+					if(oldstate == readesc){
+						x +=  hlspans[hlerror] + cword + s[i] + spanend;
+						cword = "";
+					}
+					else
+                   		x += hlspans[hlerror] + s[i] + spanend;
+             		break;
     
             }
 			
