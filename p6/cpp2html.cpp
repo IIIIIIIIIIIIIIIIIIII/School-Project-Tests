@@ -89,5 +89,84 @@ int main() {
 	// It may be helpful to break this down and write
 	// a function that processes a single line, which
 	// you repeatedly call from main().
+	string s, x,cword;
+	while(getline(cin,s)){
+
+	//	int zstate = start;
+	//for (unsigned long i = 0; i < s.length(); i++) {
+	//	cout << updateState(zstate,s[i]);
+	//}
+	//cout << zstate << endl;
+	//cout << s << endl;
+
+        int cstate = start;
+		cout << endl;
+        for(unsigned int i = 0; i < s.length();i++){
+			int oldstate = cstate;
+			updateState(cstate,s[i]);
+            cout << cstate << "\t" << s[i]<< endl;
+            switch(cstate){
+            
+                case start:
+				//	cout << cword << endl;
+                  if(cword != ""){
+				  	map<string, short>::iterator it;
+				  	it = hlmap.find(cword);
+					if(it != hlmap.end()){
+						x += hlspans[it->second] + cword + spanend;
+						cword = "";
+					   }
+					else{
+						x += cword;
+						cword = "";
+						}
+					}
+					if(oldstate == strlit)
+						 x += hlspans[hlstrlit] + s[i] + spanend;
+					else
+				 		  x += translateHTMLReserved(s[i]);
+                    break;
+
+                case scanid:
+                    cword += s[i];
+                    break;
+
+                case comment:
+                    x += hlspans[hlcomment] + s[i] + spanend;
+                    break;
+
+                case strlit:
+					if(oldstate == readesc);
+					//x += hlspans[hlescseq] + s[i] + spanend;
+					else
+                    x += hlspans[hlstrlit] + s[i] + spanend;
+                    break;
+
+                case readfs:
+					  x += hlspans[hlcomment] + s[i] + spanend;
+					break;
+
+                case readesc:
+                    x += hlspans[hlescseq] + s[i] + spanend;
+                    break;
+
+                case scannum:
+                    x+= hlspans[hlnumeric] + s[i] + spanend;
+                //    cstate = updateState(cstate,s[i]);
+                    break;
+
+                case error:
+				
+                    x += hlspans[hlerror] + s[i] + spanend;
+                  //  cstate = updateState(cstate,s[i]);
+                    break;
+    
+            }
+			
+        }
+    
+        x+= '\n';
+}
+    cout << x << endl;
 	return 0;
 }
