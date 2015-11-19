@@ -239,10 +239,9 @@ cout &lt;&lt; (t1 == t2) &lt;&lt; endl;</code></pre></td></tr></table></div>
 <!---}}-->
 <!---{{ Testing-->
 <h3 id="testing">Testing</h3>
-<p>To test, compile using the makefile (<code>$ make main</code>) and then run the test script <code>./test.sh</code>. Finally, check the output of that with the <code>soutput</code> file that I have distributed. If you want, you can do this:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">make</span>
-$ <span class="kw">gvimdiff</span> -f <span class="kw">&lt;(./check)</span> soutput</code></pre></div>
-<p>If there are no differences, rejoice. Otherwise, see if you can figure out what went wrong. Running <code>./check</code> (no redirection) might be helpful, since it will show what test it is running, with your output right under each one. You can then find what you should have had by examining the diff.</p>
+<p>To test, compile using the makefile (<code>$ make</code>) and then run the test script <code>./test.sh</code> (which just puts the <code>./check</code> output in a file named <code>output</code>). Then compare the expected output (<code>soutput</code>) with what your program produced (<code>output</code>). Using a diff tool like gvimdiff might be helpful: <code>gvimdiff {,s}output</code>. Or, you could do it all in one step like this:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">make</span> <span class="kw">&amp;&amp;</span> <span class="kw">gvimdiff</span> -f <span class="kw">&lt;(./check)</span> soutput</code></pre></div>
+<p>If there are no differences, rejoice. Otherwise, see if you can figure out what went wrong. Running <code>./check</code> (no redirection) might be helpful, since it will show what test it is running, with your output right under each one. It might also be useful to add more <code>fprintf(stderr,...)</code> or <code>cerr &lt;&lt;</code><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> statements to check.cpp to print more details of each test (like exactly what triangles were being compared for similarity tests).</p>
 <h3 id="hints">Hints</h3>
 <ul>
 <li><code>findRightTriangles</code>: For this, there are formulas that will compute the integers you are after, but it might be easier to just use a brute-force approach. Construct a loop (perhaps nested loops) that runs over all the possibilities, and then filter out everything but the ones that match. I won’t test the program on really large integers, so don’t be too concerned over performance. Just get the right answers.</li>
@@ -286,6 +285,7 @@ $ <span class="kw">gvimdiff</span> -f <span class="kw">&lt;(./check)</span> sout
 <ol>
 <li id="fn1"><p>Although, the coolest triangles have historically been equilateral:<br />
 <img src="http://upload.wikimedia.org/wikipedia/en/3/3b/Dark_Side_of_the_Moon.png" alt="floyd" />        <img src="http://zeldawiki.org/images/thumb/8/80/Triforce_Logo.png/240px-Triforce_Logo.png" alt="triforce" /><a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Note <code>cerr</code> is just like cout, but prints to stderr, so the output file won’t be cluttered.<a href="#fnref2">↩</a></p></li>
 </ol>
 </div>
 </body>
