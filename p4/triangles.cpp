@@ -80,7 +80,7 @@ bool similar(triangle t1, triangle t2) {
 	unsigned long sides1[3] = {t1.s1,t1.s2,t1.s3}, sides2[3] = {t2.s1,t2.s2,t2.s3};
 		sort(sides1,sides1+3);
 		sort(sides2,sides2+3);
-		return (sides1[0]/sides2[0] == sides1[1]/sides2[1] && sides1[0]/sides2[0] == sides1[2]/sides2[2]);
+		return ((double)sides1[0]/sides2[0] == (double) sides1[1]/sides2[1] && (double) sides1[0]/sides2[0] == (double) sides1[2]/sides2[2] );
 			//return true;
 		//else
 		//	return false;
@@ -95,23 +95,38 @@ vector<triangle> findRightTriangles(unsigned long l, unsigned long h) {
 
 	unsigned int c;
 	
-	 for(unsigned int i = 3; i < h; i++){
-	 	temp.s1 = i;
+	 for(unsigned int a = 3; a < h; a++){
+	 	temp.s1 = a;
 
-	 	for(unsigned int i = 4; i < h; i++){
-			temp.s2 = i;
+	 	for(unsigned int b = a + 1; b < h ; b++){
+			temp.s2 = b;
+			
 			c = (temp.s1*temp.s1) + (temp.s2*temp.s2);
 
-			for(unsigned int i = 5; i < h; i++){
+			for(unsigned int i = 5; i < h; ++i){
 	 			if((double) c/(i*i) == 1){
 					temp.s3 = i;		
-					if(temp.perimeter() <= h && temp.perimeter() >= l)
-						retval.push_back(temp);
+					if(temp.perimeter() <= h && temp.perimeter() >= l){
+					//	if(retval.size() == 0)
+							retval.push_back(temp);
+					/*for(unsigned int i = 0; i < retval.size(); i++){
+							if(retval[i].perimeter() != temp.perimeter())
+							retval.push_back(temp);
+						}*/
+					}
 				}	
 			 }
 		}
 	 }	 
-	return retval;
+/*	 for(unsigned int j = 0; j < v.size(); j++) {
+		int current = j;
+		 for( unsigned int i = current + 1; i < v.size();i++){
+		 	if(v[current].perimeter() != v[i].perimeter())
+				retval.push_back(v[current]);
+		 }
+	 }*/
+	 return retval;
 }
+
 
 
