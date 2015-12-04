@@ -90,11 +90,11 @@ int main() {
 	string s, x,cword;
 	while(getline(cin,s)){
 
-        int cstate = start;
+    	int cstate = start;
         for(unsigned int i = 0; i < s.length();i++){
 			int oldstate = cstate;
 			updateState(cstate,s[i]);
-           // cout << cstate << "\t" << s[i]<< "\t" << cword << endl;    (Tester for which case there is a bug)
+          // cout << cstate << "\t" << s[i]<< "\t" << cword << endl;   ////////////////// (Tester for which case there is a bug)
             switch(cstate){
             
                 case start:
@@ -134,7 +134,16 @@ int main() {
                     break;
 
                 case readfs:
-					  x += hlspans[hlcomment] + s[i] + spanend;
+					  cword += s[i];
+					  if(oldstate == readfs){
+					  	x += cword;
+						cword = "";
+					  }
+					  else{
+					  	x += hlspans[hlcomment] + cword + spanend;
+						cword = "";
+					  }
+
 					break;
 
                 case readesc:
