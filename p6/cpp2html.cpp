@@ -6,11 +6,9 @@
  * and the book, please list everything.  And remember- citing a source does
  * NOT mean it is okay to COPY THAT SOURCE.  What you submit here **MUST BE
  * YOUR OWN WORK**.
- * References:
- *
- *
+ * References: friend Laisa
  * Finally, please indicate approximately how many hours you spent on this:
- * #hours: 
+ * #hours: ~8 hours (O.O)
  */
 
 #include "fsm.h"
@@ -89,5 +87,88 @@ int main() {
 	// It may be helpful to break this down and write
 	// a function that processes a single line, which
 	// you repeatedly call from main().
+	string s, x,cword;
+	while(getline(cin,s)){
+
+    	int cstate = start;
+        for(unsigned int i = 0; i < s.length();i++){
+			int oldstate = cstate;
+			updateState(cstate,s[i]);
+          // cout << cstate << "\t" << s[i]<< "\t" << cword << endl;   ////////////////// (Tester for which case there is a bug)
+            switch(cstate){
+            
+                case start:
+                  if(cword != ""){
+				  	map<string, short>::iterator it;
+				  	it = hlmap.find(cword);
+					if(it != hlmap.end()){
+						x += hlspans[it->second] + cword + spanend;
+						cword = "";
+					   }
+					else{
+						x += cword;
+						cword = "";
+						}
+					}
+					if(oldstate == strlit)
+						 x += hlspans[hlstrlit] + s[i] + spanend;
+					else
+				 		  x += translateHTMLReserved(s[i]);
+                    break;
+
+                case scanid:
+                    cword += s[i];
+                    break;
+
+                case comment:
+                    x += hlspans[hlcomment] + s[i] + spanend;
+                    break;
+
+                case strlit:
+					if(oldstate == readesc){
+						x += hlspans[hlescseq] + cword + s[i] + spanend;
+						cword = "";
+					}
+					else
+                   		x += hlspans[hlstrlit] + s[i] + spanend;
+                    break;
+
+                case readfs:
+					  cword += s[i];
+					  if(oldstate == readfs){
+					  	x += cword;
+						cword = "";
+					  }
+					  else{
+					  	x += hlspans[hlcomment] + cword + spanend;
+						cword = "";
+					  }
+
+					break;
+
+                case readesc:
+                    cword += s[i];
+                    break;
+
+                case scannum:
+                    x+= hlspans[hlnumeric] + s[i] + spanend;
+                    break;
+
+                case error:
+					if(oldstate == readesc){
+						x +=  hlspans[hlerror] + cword + s[i] + spanend;
+						cword = "";
+					}
+					else
+                   		x += hlspans[hlerror] + s[i] + spanend;
+             		break;
+    
+            }
+			
+        }
+    
+        x+= '\n';
+}
+    cout << x << endl;
 	return 0;
 }
