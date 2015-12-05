@@ -21,6 +21,22 @@ using std::endl;
 #include <getopt.h> // to parse long arguments.
 #include <cstdlib> // for atoi function
 
+
+void hanoi2(int n, int start, int end){
+	if(n > 0){
+		int emp = 6-start-end;
+	//	cout <<"honai("  << n <<"," << start << ","<< end << ")" << endl;
+	//	cout << n << ":" << start << ":" << end << ":" << emp << endl;
+		hanoi2(n-1,start,emp);
+	//	cout << n << ":" << start << ":" << end << ":" << emp << endl;
+	//	cout <<"honai("  << n <<"," << start << ","<< end << ")" << endl;
+		cout << start << "\t" << end << endl;
+		hanoi2(n-1,emp,end);
+		//cout << end << "\t" << start << endl;
+	}
+}
+
+
 /* Here's a skeleton main function for processing the arguments. */
 int main(int argc, char *argv[]) {
 	// define long options
@@ -54,6 +70,19 @@ int main(int argc, char *argv[]) {
 
 	/* TODO: now that you have the options and arguments,
 	 * solve the puzzle. */
+	//honai(3,1,3);
+	//cout << endl;
+	//honai(1,1,3);
+	//cout << endl;
+	hanoi2(n,start,end);
+	//cout << endl;
+	//honai2(2,1,3);
+	//cout << endl;
+	//honai(1,1,3);
+	//cout << endl;
+	//honai2(3,1,3);
+	//cout << endl;
+	//honai(4,1,3);
 
 	return 0;
 }
